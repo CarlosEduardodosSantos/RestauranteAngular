@@ -70,16 +70,17 @@ export class CadastroHospedagemComponent implements OnInit {
       janta: this.janta,
     };
     if (
-      (this.hospModel.nome !== '',
-      this.hospModel.apto !== '',
-      this.hospModel.dataCheckin !== '',
-      this.hospModel.dataCheckout !== '',
-      this.hospModel.qtdeA !== '',
-      this.hospModel.qtdeC !== '',
-      this.hospModel.qtdeN !== '')
+      this.hospModel.nome !== '' &&
+      this.hospModel.apto !== '' &&
+      this.hospModel.nomeHotel !== '' &&
+      this.hospModel.dataCheckin !== '' &&
+      this.hospModel.dataCheckout !== '' &&
+      this.hospModel.qtdeA !== '' &&
+      this.hospModel.qtdeC !== '' &&
+      this.hospModel.qtdeN !== ''
     ) {
       this.HospedagemService.insertHosp(this.hospModel).then(() =>
-        window.alert('Hóspede Registrado!')
+        this.gotoRestaurante()
       );
       console.log(this.hospModel);
     } else {
