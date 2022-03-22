@@ -7,12 +7,14 @@ import {HttpClientModule} from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RestauranteHospedagemComponent } from './restaurante-hospedagem/restaurante-hospedagem.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CadastroHospedagemComponent,
     RestauranteHospedagemComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
