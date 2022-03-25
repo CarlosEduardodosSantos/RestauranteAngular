@@ -19,12 +19,18 @@ export class CadastroHospedagemComponent implements OnInit {
   cafe: any;
   almoco: any;
   janta: any;
+  isAdmin: any = localStorage.getItem('admin');
 
   public isCheckedCafe: boolean | undefined;
   public isCheckedAlmoco: boolean | undefined;
   public isCheckedJanta: boolean | undefined;
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+    if (this.isAdmin !== '1') {
+      await this.router.navigate(['/login']);
+      console.log(this.isAdmin);
+    }
+  }
 
   click(ev: any) {
     console.log(ev.target.defaultValue);

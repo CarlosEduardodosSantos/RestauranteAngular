@@ -23,6 +23,7 @@
         id="exampleInputEmail1"
         aria-describedby="emailHelp"
         placeholder="Ex: 10"
+        value="{{ dataagora }}"
       />
       <input
         type="text"
@@ -68,15 +69,67 @@
         </ul>
       </div>
       <button
-        title="Nova Agenda"
+        *ngIf="isAdmin != '1'"
+        title="Login"
+        class="btn btn-dark mx-2"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        <i class="fa-solid fa-circle-user"></i>
+      </button>
+      <button
+        title="Novo Plano Alimentação"
+        class="btn btn-dark mx-2"
+        *ngIf="isAdmin === '1'"
         (click)="gotoCadastro()"
-        class="btn btn-success mx-4"
       >
         <i class="fa-solid fa-circle-plus"></i>
+      </button>
+
+      <button
+        (click)="goToRelatorio()"
+        title="Relatório"
+        class="btn btn-dark mx-2"
+        *ngIf="isAdmin === '1'"
+      >
+        <i class="fa-solid fa-receipt"></i>
+      </button>
+
+      <button title="Sair" class="btn btn-danger mx-2" (click)="logout()">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
       </button>
     </div>
   </div>
 </nav>
+
+<div id="tutorial">
+  Possui Refeição:
+  <input
+    type="checkbox"
+    checked="true"
+    disabled="true"
+    value="1"
+    class="form-check-input"
+    id="exampleCheck1"
+  />
+  Ja Consumiu:
+  <input
+    type="checkbox"
+    [indeterminate]="true"
+    disabled="true"
+    value="1"
+    class="form-check-input"
+    id="exampleCheck1"
+  />
+  Não Possui:
+  <input
+    type="checkbox"
+    disabled="true"
+    value="1"
+    class="form-check-input"
+    id="exampleCheck1"
+  />
+</div>
 
 <table class="table table-striped">
   <thead>
@@ -108,6 +161,7 @@
         <input
           type="checkbox"
           [disabled]="!ali.cafe"
+          [indeterminate]="ali.cConsumido"
           [(ngModel)]="ali.cafe"
           [ngModelOptions]="{ standalone: true }"
           (change)="checkCafe(i)"
@@ -120,6 +174,7 @@
         <input
           type="checkbox"
           [disabled]="!ali.almoco"
+          [indeterminate]="ali.aConsumido"
           [(ngModel)]="ali.almoco"
           [ngModelOptions]="{ standalone: true }"
           (change)="checkAlmoco(i)"
@@ -132,6 +187,7 @@
         <input
           type="checkbox"
           [disabled]="!ali.janta"
+          [indeterminate]="ali.jConsumido"
           [(ngModel)]="ali.janta"
           [ngModelOptions]="{ standalone: true }"
           (change)="checkJanta(i)"
@@ -191,3 +247,116 @@
     <a class="text-dark" href="https://www.zipsoftware.com.br/">ZiP Software</a>
   </div>
 </footer>
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Área de Gestão</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Login</label>
+            <input
+              type="text"
+              #login
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Senha</label>
+            <input
+              type="password"
+              #senha
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Fechar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          (click)="goToAdmin(login.value, senha.value)"
+        >
+          Entrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="exampleModal2"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Área de Gestão</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Login</label>
+            <input
+              type="text"
+              #login
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Senha</label>
+            <input
+              type="password"
+              #senha
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Fechar
+        </button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          Entrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

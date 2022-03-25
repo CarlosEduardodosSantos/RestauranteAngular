@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HospedagemService } from '../hospedagem.service';
 import { iHos } from '../iHos';
 import { iAli } from '../iAli';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-restaurante-hospedagem',
@@ -16,6 +17,10 @@ export class RestauranteHospedagemComponent implements OnInit {
   dataagora = new Date().toISOString().substring(0, 10);
   nome: any;
   operacao: any = ' Todos';
+  $: any;
+  login = environment.login;
+  senha = environment.senha;
+  isAdmin: any = localStorage.getItem('admin');
 
   public isCheckedCafe: boolean | undefined;
   public isCheckedAlmoco: boolean | undefined;
@@ -27,7 +32,12 @@ export class RestauranteHospedagemComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    if (this.isAdmin !== '1' && this.isAdmin !== '3') {
+      await this.router.navigate(['/login']);
+      console.log(this.isAdmin);
+    }
     //await this.HospedagemService.obterAli().then(ali => { this.alimentacao = ali});
+    this.HospedagemService.isAdmin = localStorage.getItem('admin');
     await this.HospedagemService.obterAliByDate(this.dataagora).then((ali) => {
       this.alimentacao = ali;
       console.log(ali);
@@ -129,6 +139,7 @@ export class RestauranteHospedagemComponent implements OnInit {
   checkCafe(i: any) {
     if (confirm('Deseja confirmar a refeição?')) {
       let vari = 0;
+      let consumido = 1;
       this.aliModel = {
         alimentacaoId: this.alimentacao.results[i].alimentacaoId,
         nome: this.alimentacao.results[i].nome,
@@ -138,9 +149,10 @@ export class RestauranteHospedagemComponent implements OnInit {
         cafe: vari,
         almoco: this.alimentacao.results[i].almoco,
         janta: this.alimentacao.results[i].janta,
+        cConsumido: consumido,
       };
       this.HospedagemService.editAli(this.aliModel).then(() =>
-        window.alert('Registro Alterado!')
+        location.reload()
       );
     } else {
       location.reload();
@@ -150,6 +162,7 @@ export class RestauranteHospedagemComponent implements OnInit {
   checkAlmoco(i: any) {
     if (confirm('Deseja confirmar a refeição?')) {
       let vari = 0;
+      let consumido = 1;
       this.aliModel = {
         alimentacaoId: this.alimentacao.results[i].alimentacaoId,
         nome: this.alimentacao.results[i].nome,
@@ -159,9 +172,10 @@ export class RestauranteHospedagemComponent implements OnInit {
         cafe: this.alimentacao.results[i].cafe,
         almoco: vari,
         janta: this.alimentacao.results[i].janta,
+        aConsumido: consumido,
       };
       this.HospedagemService.editAli(this.aliModel).then(() =>
-        window.alert('Registro Alterado!')
+        location.reload()
       );
     } else {
       location.reload();
@@ -171,6 +185,7 @@ export class RestauranteHospedagemComponent implements OnInit {
   checkJanta(i: any) {
     if (confirm('Deseja confirmar a refeição?')) {
       let vari = 0;
+      let consumido = 1;
       this.aliModel = {
         alimentacaoId: this.alimentacao.results[i].alimentacaoId,
         nome: this.alimentacao.results[i].nome,
@@ -180,9 +195,10 @@ export class RestauranteHospedagemComponent implements OnInit {
         cafe: this.alimentacao.results[i].cafe,
         almoco: this.alimentacao.results[i].almoco,
         janta: vari,
+        jConsumido: consumido,
       };
       this.HospedagemService.editAli(this.aliModel).then(() =>
-        window.alert('Registro Alterado!')
+        location.reload()
       );
     } else {
       location.reload();
@@ -202,5 +218,21 @@ export class RestauranteHospedagemComponent implements OnInit {
 
   gotoCadastro() {
     this.router.navigate(['/cadastro']);
+  }
+
+  goToAdmin(login: any, senha: any) {
+    if (login == this.login && senha == this.senha) {
+      localStorage.setItem('admin', '1');
+      location.reload();
+    } else {
+      alert('Credenciais Incorretas!');
+    }
+  }
+  goToRelatorio() {
+    this.router.navigate(['/relatorio']);
+  }
+  logout() {
+    localStorage.setItem('admin', '2');
+    this.router.navigate(['/login']);
   }
 }

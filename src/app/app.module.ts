@@ -3,10 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CadastroHospedagemComponent } from './cadastro-hospedagem/cadastro-hospedagem.component';
-import {HttpClientModule} from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RestauranteHospedagemComponent } from './restaurante-hospedagem/restaurante-hospedagem.component';
+import { RelatorioComponent } from './relatorio/relatorio.component';
 import { LoginComponent } from './login/login.component';
 
 @NgModule({
@@ -14,6 +15,7 @@ import { LoginComponent } from './login/login.component';
     AppComponent,
     CadastroHospedagemComponent,
     RestauranteHospedagemComponent,
+    RelatorioComponent,
     LoginComponent,
   ],
   imports: [
@@ -22,9 +24,9 @@ import { LoginComponent } from './login/login.component';
     HttpClientModule,
     FormsModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
